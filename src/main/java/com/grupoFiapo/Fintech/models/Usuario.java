@@ -1,6 +1,6 @@
 package com.grupoFiapo.Fintech.models;
-import java.util.InputMismatchException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class Usuario {
     private String nome;
@@ -24,7 +24,6 @@ public class Usuario {
         this.cpf = validarCPF(cpf);
         this.senha = validarSenha(senha);
         this.logradouro = validarTexto(logradouro, "Logradouro");
-        // Validação do campo "número" usando o método que valida somente números
         this.numero = validarSomenteNumeros(numero, "Número");
         this.bairro = validarTexto(bairro, "Bairro");
         this.cidade = validarTexto(cidade, "Cidade");
@@ -84,7 +83,6 @@ public class Usuario {
         }
         return cpf;
     }
-
     private boolean isCPF(String CPF) {
         // Verifica se o CPF é formado por uma sequência de números iguais ou não possui 11 dígitos
         if (CPF.equals("00000000000") ||
