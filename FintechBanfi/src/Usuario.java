@@ -1,4 +1,3 @@
-package com.grupoFiapo.Fintech.models;
 import java.util.Objects;
 
 public class Usuario {
@@ -7,21 +6,21 @@ public class Usuario {
     private String telefone;
     private String cpf;
     private String senha;
+    private double saldo;
+    private Endereco endereco;
 
-    public Usuario(String nome, String email, String telefone, String cpf, String senha) {
+    public Usuario() {
+    }
+
+    public Usuario(String nome, String email, String telefone, String cpf, String senha, double saldo) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.cpf = cpf;
         this.senha = senha;
+        this.saldo = saldo;
     }
-    public Usuario(String nome, String email, String cpf, String senha) {
-        this.nome = nome;
-        this.email = email;
-        this.cpf = cpf;
-        this.senha = senha;
-    }
-    
+
     // Encapsulamento: getters e setters
     public String getNome() {
         return nome;
@@ -56,6 +55,20 @@ public class Usuario {
     }
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public void Login(String loginEmail, String loginSenha) {

@@ -14,11 +14,9 @@ public class Menu {
             System.out.println("2 - Exibir Usuário");
             System.out.println("3 - Realizar Login");
             System.out.println("4 - Cadastrar Gasto");
-            System.out.println("5 - Cadastrar Investimento");
-            System.out.println("6 - Exibir Histórico de Gastos");
-            System.out.println("7 - Exibir Histórico de Investimentos");
-            System.out.println("8 - Controle de Saldo");
-            System.out.println("9 - Finalizar Programa");
+            System.out.println("5 - Exibir Histórico de Gastos");
+            System.out.println("6 - Controle de Saldo");
+            System.out.println("7 - Finalizar Programa");
             op = sc.nextInt();
 
             switch (op) {
@@ -36,45 +34,57 @@ public class Menu {
                     System.out.println("Digite o saldo inicial do usuário: ");
                     double saldo = sc.nextDouble();
 
-                    usuario.nome = nome;
-                    usuario.email = email;
-                    usuario.telefone = telefone;
-                    usuario.cpf = cpf;
-                    usuario.senha = senha;
-                    usuario.saldo = saldo;
+                    usuario.setNome(nome);
+                    usuario.setEmail(email);
+                    usuario.setTelefone(telefone);
+                    usuario.setCpf(cpf);
+                    usuario.setSenha(senha);
+                    usuario.setSaldo(saldo);
 
                     System.out.println("Digite as informações do endereço do usuário:");
-                    System.out.println("Digite o logradouro do endereço do usuário: ");
+                    System.out.println("Digite o logradouro: ");
                     String logradouro = sc.next() + sc.nextLine();
-                    System.out.println("Digite o número do endereço do usuário: ");
+                    System.out.println("Digite o número: ");
                     String numero = sc.next() + sc.nextLine();
-                    System.out.println("Digite o bairro do endereço do usuário: ");
+                    System.out.println("Digite o bairro: ");
                     String bairro = sc.next() + sc.nextLine();
-                    System.out.println("Digite a cidade do endereço do usuário: ");
+                    System.out.println("Digite a cidade: ");
                     String cidade = sc.next() + sc.nextLine();
-                    System.out.println("Digite o estado do endereço do usuário: ");
+                    System.out.println("Digite o estado: ");
                     String estado = sc.next() + sc.nextLine();
-                    System.out.println("Digite o CEP do endereço do usuário: ");
+                    System.out.println("Digite o CEP: ");
                     String cep = sc.next();
 
-                    Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, cep);
-                    usuario.endereco = endereco;
+                    Endereco endereco = new Endereco();
+                    endereco.setLogradouro(logradouro);
+                    endereco.setNumero(numero);
+                    endereco.setBairro(bairro);
+                    endereco.setCidade(cidade);
+                    endereco.setEstado(estado);
+                    endereco.setCep(cep);
+
+                    usuario.setEndereco(endereco);
                     break;
 
                 case 2:
                     System.out.println("Dados do Usuário:");
-                    System.out.println("Nome: " + usuario.nome);
-                    System.out.println("Email: " + usuario.email);
-                    System.out.println("Telefone: " + usuario.telefone);
-                    System.out.println("CPF: " + usuario.cpf);
-                    System.out.println("Saldo: R$" + usuario.saldo);
-                    System.out.println("\nEndereço:");
-                    System.out.println("Logradouro: " + usuario.endereco.logradouro);
-                    System.out.println("Número: " + usuario.endereco.numero);
-                    System.out.println("Bairro: " + usuario.endereco.bairro);
-                    System.out.println("Cidade: " + usuario.endereco.cidade);
-                    System.out.println("Estado: " + usuario.endereco.estado);
-                    System.out.println("CEP: " + usuario.endereco.cep);
+                    System.out.println("Nome: " + usuario.getNome());
+                    System.out.println("Email: " + usuario.getEmail());
+                    System.out.println("Telefone: " + usuario.getTelefone());
+                    System.out.println("CPF: " + usuario.getCpf());
+                    System.out.println("Saldo: R$" + usuario.getSaldo());
+
+                    if (usuario.getEndereco() != null) {
+                        System.out.println("\nEndereço:");
+                        System.out.println("Logradouro: " + usuario.getEndereco().getLogradouro());
+                        System.out.println("Número: " + usuario.getEndereco().getNumero());
+                        System.out.println("Bairro: " + usuario.getEndereco().getBairro());
+                        System.out.println("Cidade: " + usuario.getEndereco().getCidade());
+                        System.out.println("Estado: " + usuario.getEndereco().getEstado());
+                        System.out.println("CEP: " + usuario.getEndereco().getCep());
+                    } else {
+                        System.out.println("Endereço não cadastrado.");
+                    }
                     break;
 
                 case 3:
@@ -91,45 +101,28 @@ public class Menu {
                     double valorGasto = sc.nextDouble();
                     System.out.println("Digite a descrição do gasto:");
                     String descricaoGasto = sc.next() + sc.nextLine();
-                    controle.cadastrarGasto(valorGasto, descricaoGasto);
-                    System.out.println("Gasto cadastrado com sucesso. Novo saldo: R$" + usuario.saldo);
+
+                    Gasto novoGasto = new Gasto(valorGasto, descricaoGasto);
+                    controle.cadastrarTransacao(novoGasto);
+
+                    System.out.println("Gasto cadastrado com sucesso. Novo saldo: R$" + usuario.getSaldo());
                     break;
 
                 case 5:
-                    System.out.println("Digite o valor inicial do investimento:");
-                    double valorInicial = sc.nextDouble();
-                    System.out.println("Digite o valor retornado do investimento:");
-                    double valorRetornado = sc.nextDouble();
-                    System.out.println("Digite a descrição do investimento:");
-                    String descricaoInvestimento = sc.next() + sc.nextLine();
-                    controle.cadastrarInvestimento(valorInicial, valorRetornado, descricaoInvestimento);
-                    double lucro = valorRetornado - valorInicial;
-                    System.out.println("Investimento cadastrado com sucesso. Lucro: " + lucro + ". Novo saldo: R$" + usuario.saldo);
+                    System.out.println("Histórico de Gastos:");
+                    if (controle.getTransacoes().isEmpty()) {
+                        System.out.println("Nenhum gasto cadastrado.");
+                    } else {
+                        for (Transacao t : controle.getTransacoes()) {
+                            if (t instanceof Gasto) {
+                                System.out.println("Valor: R$" + t.getValor()
+                                        + " | Descrição: " + t.getDescricao());
+                            }
+                        }
+                    }
                     break;
 
                 case 6:
-                    System.out.println("Histórico de Gastos:");
-                    if (controle.getGastos().isEmpty()) {
-                        System.out.println("Nenhum gasto cadastrado.");
-                    } else {
-                        for (Gastos gasto : controle.getGastos()){
-                            System.out.println("Valor: R$" + gasto.getValor() + " | Descrição: " + gasto.getDescricao());
-                        }
-                    }
-                    break;
-
-                case 7:
-                    System.out.println("Histórico de Investimentos:");
-                    if (controle.getInvestimentos().isEmpty()) {
-                        System.out.println("Nenhum investimento cadastrado.");
-                    } else {
-                        for (Investimentos invest : controle.getInvestimentos()){
-                            System.out.println("Descrição: " + invest.getDescricao() + " | Lucro: R$" + invest.getLucro());
-                        }
-                    }
-                    break;
-
-                case 8:
                     System.out.println("Controle de Saldo:");
                     System.out.println("Escolha a operação: ");
                     System.out.println("1 - Depositar");
@@ -140,35 +133,35 @@ public class Menu {
                         case 1:
                             System.out.println("Digite o valor para depositar:");
                             double valorDeposito = sc.nextDouble();
-                            usuario.saldo += valorDeposito;
-                            System.out.println("Depósito realizado. Novo saldo: R$" + usuario.saldo);
+                            usuario.setSaldo(usuario.getSaldo() + valorDeposito);
+                            System.out.println("Depósito realizado. Novo saldo: R$" + usuario.getSaldo());
                             break;
                         case 2:
                             System.out.println("Digite o valor para sacar:");
                             double valorSaque = sc.nextDouble();
-                            if (usuario.saldo >= valorSaque) {
-                                usuario.saldo -= valorSaque;
-                                System.out.println("Saque realizado. Novo saldo: R$" + usuario.saldo);
+                            if (usuario.getSaldo() >= valorSaque) {
+                                usuario.setSaldo(usuario.getSaldo() - valorSaque);
+                                System.out.println("Saque realizado. Novo saldo: R$" + usuario.getSaldo());
                             } else {
                                 System.out.println("Saldo insuficiente para saque.");
                             }
                             break;
                         case 3:
-                            System.out.println("Saldo atual: R$" + usuario.saldo);
+                            System.out.println("Saldo atual: R$" + usuario.getSaldo());
                             break;
                         default:
                             System.out.println("Opção inválida para controle de saldo.");
                     }
                     break;
 
-                case 9:
+                case 7:
                     System.out.println("Finalizando Programa");
                     break;
 
                 default:
                     System.out.println("Opção Inválida");
             }
-        } while (op != 9);
+        } while (op != 7);
 
         sc.close();
     }
