@@ -1,16 +1,17 @@
 package com.grupoFiapo.Fintech.models;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Despesa {
     private String descricao;
     private double valor;
     private String categoria;
-    private LocalDate data;
+    private Date data;
     private boolean pago;
 
     // Construtor
-    public Despesa(String descricao, double valor, String categoria, LocalDate data) {
+    public Despesa(String descricao, double valor, String categoria, Date data) {
         this.descricao = descricao;
         this.valor = valor;
         this.categoria = categoria;
@@ -43,11 +44,11 @@ public class Despesa {
         this.categoria = categoria;
     }
 
-    public LocalDate getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(Date data) {
         this.data = data;
     }
 
@@ -71,7 +72,7 @@ public class Despesa {
     }
 
     // Metodo para editar todos os campos de uma vez
-    public void editarDespesa(double novoValor, String novaDescricao, LocalDate novaData) {
+    public void editarDespesa(double novoValor, String novaDescricao, Date novaData) {
         this.valor = novoValor;
         this.descricao = novaDescricao;
         this.data = novaData;
