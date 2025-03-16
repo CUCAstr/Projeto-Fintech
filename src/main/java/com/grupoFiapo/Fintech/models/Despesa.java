@@ -2,55 +2,17 @@ package com.grupoFiapo.Fintech.models;
 
 import java.time.LocalDate;
 
-public class Despesa {
-    private String descricao;
-    private double valor;
-    private String categoria;
-    private LocalDate data;
-    private boolean pago;
+public class Despesa extends Transacao {
+        private boolean pago;
 
     // Construtor
     public Despesa(String descricao, double valor, String categoria, LocalDate data) {
-        this.descricao = descricao;
-
-        this.valor = valor;
+        super(descricao, valor, data, categoria);
         this.categoria = categoria;
-        this.data = data;
         this.pago = false; // Por padrão, começa como não paga
     }
 
     // Getters e Setters
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
 
     public boolean isPago() {
         return pago;
@@ -60,21 +22,22 @@ public class Despesa {
         this.pago = true;
     }
 
-    // Metodo para exibir a despesa formatada
+    // Implementação do metodo exibirInformacoes()
     @Override
-    public String toString() {
-        // Define o status da despesa: "Paga" se for verdadeira, "Pendente" se for falsa
-        String status = pago ? "Paga" : "Pendente";
+    public void exibirInformacoes() {
+        System.out.println("===== DESPESA =====");
+        System.out.println("Descrição: " + descricao);
+        System.out.println("Valor: R$" + String.format("%.2f", valor));
+        System.out.println("Categoria: " + categoria);
+        System.out.println("Data: " + data);
 
-        // Retorna uma string com as informações formatadas
-        return String.format("%s - R$%.2f (%s) | %s - %s",
-                descricao, valor, categoria, data.toString(), status);
-    }
+        // Verificando se a despesa está paga ou não
+        if (pago) {
+            System.out.println("Status: Paga ✅");
+        } else {
+            System.out.println("Status: Pendente ❌");
+        }
 
-    // Metodo para editar todos os campos de uma vez
-    public void editarDespesa(double novoValor, String novaDescricao, LocalDate novaData) {
-        this.valor = novoValor;
-        this.descricao = novaDescricao;
-        this.data = novaData;
+        System.out.println("====================");
     }
 }
