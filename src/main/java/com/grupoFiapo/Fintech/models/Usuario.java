@@ -35,7 +35,7 @@ public class Usuario {
         this.complemento = (complemento != null) ? complemento.trim() : null;
     }
 
-    // Método para verificação de campo obrigatório
+    // Metodo para verificação de campo obrigatório
     private String validacaoVazio(String valor, String campo) {
         if (valor == null || valor.trim().isEmpty()) {
             throw new IllegalArgumentException("O campo " + campo + " é obrigatório.");
