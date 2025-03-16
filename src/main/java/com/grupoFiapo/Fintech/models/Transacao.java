@@ -40,6 +40,13 @@ public abstract class Transacao {
     public void setData(LocalDate data) {
         this.data = data;
     }
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
     // Metodo abstrato para exibir informações (será implementado nas subclasses)
     public abstract void exibirInformacoes();
