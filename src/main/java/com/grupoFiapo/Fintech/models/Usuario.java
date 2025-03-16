@@ -1,6 +1,8 @@
 package com.grupoFiapo.Fintech.models;
+
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Usuario {
     private String nome;
@@ -16,89 +18,120 @@ public class Usuario {
     private String estado;
     private String cep;
 
-    public Usuario(String nome, String email, String telefone, String cpf, String senha, String complemento, String logradouro, String numero, String bairro, String cidade, String estado, String cep) {
-        
-        // Validação de campos obrigatórios
-        this.nome = validarNome(nome);
-        this.email = validarEmail(email);
-        this.cpf = validarCPF(cpf);
-        this.senha = validarSenha(senha);
-        this.logradouro = validarTexto(logradouro, "Logradouro");
-        this.numero = validarSomenteNumeros(numero, "Número");
-        this.bairro = validarTexto(bairro, "Bairro");
-        this.cidade = validarTexto(cidade, "Cidade");
-        this.estado = validarEstado(estado);
-        this.cep = validarCEP(cep);
+    // Scanner compartilhado para leitura interativa
+    private static Scanner scanner = new Scanner(System.in);
 
-        // Campo opcional: se telefone não for nulo ou vazio, valida que contenha apenas números
-        this.telefone = (telefone != null && !telefone.trim().isEmpty()) ? validarSomenteNumeros(telefone, "Telefone") : null;
-        this.complemento = (complemento != null) ? complemento.trim() : null;
+    // Construtor que recebe os dados já validados
+    public Usuario(String nome, String email, String telefone, String cpf, String senha, String complemento,
+                   String logradouro, String numero, String bairro, String cidade, String estado, String cep) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.cpf = cpf;
+        this.senha = senha;
+        this.complemento = complemento;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.cep = cep;
     }
 
-    // Método para verificação de campo obrigatório
-    private String validacaoVazio(String valor, String campo) {
+    // Método auxiliar para verificar se o campo não está vazio
+    private static String validacaoVazio(String valor, String campo) {
         if (valor == null || valor.trim().isEmpty()) {
             throw new IllegalArgumentException("O campo " + campo + " é obrigatório.");
         }
         return valor.trim();
     }
 
-    // Validação de texto genérico (apenas chama o método validacaoVazio)
-    private String validarTexto(String valor, String campo) {
-        return validacaoVazio(valor, campo);
+    // ----------------- Métodos de validação interativos -----------------
+
+    public static String validarNome() {
+        while (true) {
+            System.out.print("Digite seu nome: ");
+            String nome = scanner.nextLine();
+            try {
+                nome = validacaoVazio(nome, "Nome");
+                if (!nome.matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+                    throw new IllegalArgumentException("Nome deve conter apenas letras e espaços.");
+                }
+                return nome;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+        }
     }
 
-    // Método genérico para validação de campos que devem conter apenas números
-    private String validarSomenteNumeros(String valor, String campo) {
-        valor = validacaoVazio(valor, campo);
-        if (!valor.matches("^[0-9]+$")) {
-            throw new IllegalArgumentException(campo + " deve ser composto apenas de números.");
+    public static String validarEmail() {
+        while (true) {
+            System.out.print("Digite seu email: ");
+            String email = scanner.nextLine();
+            try {
+                email = validacaoVazio(email, "Email");
+                if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")) {
+                    throw new IllegalArgumentException("Email inválido. Formato esperado: exemplo@dominio.com.");
+                }
+                return email;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
         }
-        return valor;
     }
 
-    // Validação de nome (apenas letras)
-    private String validarNome(String nome) {
-        nome = validacaoVazio(nome, "Nome");
-        if (nome.matches(".*\\d.*")) {
-            throw new IllegalArgumentException("Nome deve conter apenas letras.");
+    public static String lerTelefone() {
+        while (true) {
+            System.out.print("Digite seu telefone (opcional): ");
+            String telefone = scanner.nextLine();
+            if (telefone.trim().isEmpty()) {
+                return null;
+            }
+            try {
+                telefone = validacaoVazio(telefone, "Telefone");
+                if (!telefone.matches("^[0-9]+$")) {
+                    throw new IllegalArgumentException("Telefone deve ser composto apenas de números.");
+                }
+                return telefone;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
         }
-        return nome;
     }
 
-    // Validação de email
-    private String validarEmail(String email) {
-        email = validacaoVazio(email, "Email");
-        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")) {
-            throw new IllegalArgumentException("Email inválido.");
+    public static String validarCPF() {
+        while (true) {
+            System.out.print("Digite seu CPF (11 dígitos): ");
+            String cpf = scanner.nextLine();
+            try {
+                cpf = validacaoVazio(cpf, "CPF");
+                if (!isCPF(cpf)) {
+                    throw new IllegalArgumentException("CPF inválido.");
+                }
+                return cpf;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
         }
-        return email;
     }
 
-    // Validação de CPF: retorna o próprio CPF se for válido; caso contrário, lança exception.
-    private String validarCPF(String cpf) {
-        cpf = validacaoVazio(cpf, "CPF");
-        if (!isCPF(cpf)) {
-            throw new IllegalArgumentException("CPF inválido: " + cpf);
-        }
-        return cpf;
-    }
-    private boolean isCPF(String CPF) {
-        // Verifica se o CPF é formado por uma sequência de números iguais ou não possui 11 dígitos
+    // Validação do CPF usando os dígitos verificadores
+    private static boolean isCPF(String CPF) {
         if (CPF.equals("00000000000") ||
-            CPF.equals("11111111111") ||
-            CPF.equals("22222222222") || CPF.equals("33333333333") ||
-            CPF.equals("44444444444") || CPF.equals("55555555555") ||
-            CPF.equals("66666666666") || CPF.equals("77777777777") ||
-            CPF.equals("88888888888") || CPF.equals("99999999999") ||
-            (CPF.length() != 11))
+                CPF.equals("11111111111") ||
+                CPF.equals("22222222222") ||
+                CPF.equals("33333333333") ||
+                CPF.equals("44444444444") ||
+                CPF.equals("55555555555") ||
+                CPF.equals("66666666666") ||
+                CPF.equals("77777777777") ||
+                CPF.equals("88888888888") ||
+                CPF.equals("99999999999") ||
+                (CPF.length() != 11))
             return false;
-
         char dig10, dig11;
         int sm, i, r, num, peso;
-
         try {
-            // Cálculo do 1º dígito verificador
             sm = 0;
             peso = 10;
             for (i = 0; i < 9; i++) {
@@ -106,14 +139,11 @@ public class Usuario {
                 sm += num * peso;
                 peso--;
             }
-
             r = 11 - (sm % 11);
             if ((r == 10) || (r == 11))
                 dig10 = '0';
-            else 
+            else
                 dig10 = (char)(r + 48);
-
-            // Cálculo do 2º dígito verificador
             sm = 0;
             peso = 11;
             for (i = 0; i < 10; i++) {
@@ -121,51 +151,174 @@ public class Usuario {
                 sm += num * peso;
                 peso--;
             }
-
             r = 11 - (sm % 11);
             if ((r == 10) || (r == 11))
                 dig11 = '0';
-            else 
+            else
                 dig11 = (char)(r + 48);
-
-            // Verifica se os dígitos calculados conferem com os dígitos informados.
             return (dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10));
         } catch (InputMismatchException erro) {
             return false;
         }
     }
 
-    // Validação de senha
-    private String validarSenha(String senha) {
-        senha = validacaoVazio(senha, "Senha");
-        if (senha.length() < 6) {
-            throw new IllegalArgumentException("Senha deve conter ao menos 6 caracteres.");
+    public static String validarSenha() {
+        while (true) {
+            System.out.print("Digite sua senha: ");
+            String senha = scanner.nextLine();
+            try {
+                senha = validacaoVazio(senha, "Senha");
+                if (senha.length() < 6) {
+                    throw new IllegalArgumentException("Senha deve conter ao menos 6 caracteres.");
+                }
+                return senha;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
         }
+    }
+
+    public static String validarCEP() {
+        while (true) {
+            System.out.print("Digite seu CEP: ");
+            String cep = scanner.nextLine();
+            try {
+                cep = validacaoVazio(cep, "CEP");
+                if (!cep.matches("^\\d{5}-?\\d{3}$")) {
+                    throw new IllegalArgumentException("CEP inválido. Formato: 12345-678 ou 12345678.");
+                }
+                return cep;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+        }
+    }
+
+    public static String validarEstado() {
+        while (true) {
+            System.out.print("Digite seu estado (Ex: SP): ");
+            String estado = scanner.nextLine();
+            try {
+                estado = validacaoVazio(estado, "Estado");
+                String[] estadosBrasileiros = {"AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"};
+                if (!Arrays.asList(estadosBrasileiros).contains(estado.toUpperCase())) {
+                    throw new IllegalArgumentException("Estado inválido. Ex: SP, RJ.");
+                }
+                return estado.toUpperCase();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+        }
+    }
+
+    public static String validarCidade() {
+        while (true) {
+            System.out.print("Digite sua cidade: ");
+            String cidade = scanner.nextLine();
+            try {
+                cidade = validacaoVazio(cidade, "Cidade");
+                if (!cidade.matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+                    throw new IllegalArgumentException("Cidade deve conter apenas letras e espaços.");
+                }
+                return cidade;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+        }
+    }
+
+    public static String validarBairro() {
+        while (true) {
+            System.out.print("Digite seu bairro: ");
+            String bairro = scanner.nextLine();
+            try {
+                bairro = validacaoVazio(bairro, "Bairro");
+                if (!bairro.matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+                    throw new IllegalArgumentException("Bairro deve conter apenas letras e espaços.");
+                }
+                return bairro;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+        }
+    }
+
+    public static String validarLogradouro() {
+        while (true) {
+            System.out.print("Digite seu logradouro: ");
+            String logradouro = scanner.nextLine();
+            try {
+                logradouro = validacaoVazio(logradouro, "Logradouro");
+                if (!logradouro.matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+                    throw new IllegalArgumentException("Logradouro deve conter apenas letras e espaços.");
+                }
+                return logradouro;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+        }
+    }
+
+    public static String validarNumero() {
+        while (true) {
+            System.out.print("Digite seu número: ");
+            String numero = scanner.nextLine();
+            try {
+                numero = validacaoVazio(numero, "Número");
+                if (!numero.matches("^[0-9]+$")) {
+                    throw new IllegalArgumentException("Número deve ser composto apenas de números.");
+                }
+                return numero;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+        }
+    }
+
+    public static String lerComplemento() {
+        System.out.print("Digite seu complemento (opcional): ");
+        String complemento = scanner.nextLine();
+        if (complemento.trim().isEmpty()) {
+            return null;
+        }
+        return complemento.trim();
+    }
+
+    // Getters
+    public String getNome() {
+        return nome;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getTelefone() {
+        return telefone;
+    }
+    public String getCpf() {
+        return cpf;
+    }
+    public String getSenha() {
         return senha;
     }
-
-    // Validação de estado (sigla de 2 letras e válido)
-    private String validarEstado(String estado) {
-        estado = validacaoVazio(estado, "Estado");
-        String[] estadosBrasileiros = {"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"};
-        if (!Arrays.asList(estadosBrasileiros).contains(estado)) {
-            throw new IllegalArgumentException("Estado inválido. Ex: SP, RJ.");
-        }
+    public String getComplemento() {
+        return complemento;
+    }
+    public String getLogradouro() {
+        return logradouro;
+    }
+    public String getNumero() {
+        return numero;
+    }
+    public String getBairro() {
+        return bairro;
+    }
+    public String getCidade() {
+        return cidade;
+    }
+    public String getEstado() {
         return estado;
     }
-
-    // Validação de CEP
-    private String validarCEP(String cep) {
-        cep = validacaoVazio(cep, "CEP");
-        if (!cep.matches("^\\d{5}-?\\d{3}$")) {
-            throw new IllegalArgumentException("CEP inválido.");
-        }
+    public String getCep() {
         return cep;
     }
-
-
-
-
-
-    
 }
