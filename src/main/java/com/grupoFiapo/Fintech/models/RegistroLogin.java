@@ -3,11 +3,11 @@ package com.grupoFiapo.Fintech.models;
 import java.util.Scanner;
 
 public class RegistroLogin {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     // Variável para armazenar o usuário registrado (simulação, sem persistência real)
     private static Usuario usuarioRegistrado;
 
-    // Método para registrar o usuário interativamente
+    // Método para registrar o usuário interativamente (sem exibir os dados)
     public static void registrarUsuario() {
         System.out.println("== Registro de Usuário ==");
         String nome = Usuario.validarNome();
@@ -27,11 +27,29 @@ public class RegistroLogin {
                 logradouro, numero, bairro, cidade, estado, cep);
 
         System.out.println("\nUsuário registrado com sucesso!");
-        System.out.println("Nome: " + usuarioRegistrado.getNome());
-        System.out.println("Email: " + usuarioRegistrado.getEmail());
     }
 
-    // Método para realizar login
+    // Método para exibir as informações do usuário
+    public static void exibirUsuario() {
+        System.out.println("\n--- Dados do Usuário ---");
+        if (usuarioRegistrado == null) {
+            System.out.println("Nenhum usuário cadastrado.");
+        } else {
+            System.out.println("Nome: " + usuarioRegistrado.getNome());
+            System.out.println("Email: " + usuarioRegistrado.getEmail());
+            System.out.println("Telefone: " + (usuarioRegistrado.getTelefone() == null ? "Não informado" : usuarioRegistrado.getTelefone()));
+            System.out.println("CPF: " + usuarioRegistrado.getCpf());
+            System.out.println("CEP: " + usuarioRegistrado.getCep());
+            System.out.println("Estado: " + usuarioRegistrado.getEstado());
+            System.out.println("Cidade: " + usuarioRegistrado.getCidade());
+            System.out.println("Bairro: " + usuarioRegistrado.getBairro());
+            System.out.println("Logradouro: " + usuarioRegistrado.getLogradouro());
+            System.out.println("Número: " + usuarioRegistrado.getNumero());
+            System.out.println("Complemento: " + (usuarioRegistrado.getComplemento() == null ? "Não informado" : usuarioRegistrado.getComplemento()));
+        }
+    }
+
+    // Método para realizar login com loop até sucesso
     public static void realizarLogin() {
         System.out.println("== Login ==");
         if (usuarioRegistrado == null) {
@@ -54,4 +72,8 @@ public class RegistroLogin {
         }
     }
 
+    // Método para retornar o usuário registrado (se necessário)
+    public static Usuario getUsuarioRegistrado() {
+        return usuarioRegistrado;
+    }
 }

@@ -5,7 +5,7 @@ import com.grupoFiapo.Fintech.models.Receita;
 
 import java.time.LocalDate;
 
-public class Test {
+public class TestTransacao {
     public static void main(String[] args) {
         // Teste de criação de objeto Despesa
         System.out.println("==== Teste de Despesa ====");

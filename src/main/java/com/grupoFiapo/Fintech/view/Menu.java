@@ -1,7 +1,9 @@
+package com.grupoFiapo.Fintech.view;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import com.grupoFiapo.Fintech.models.RegistroLogin;
 
 // Certifique-se de importar as classes do pacote correto, por exemplo:
 import com.grupoFiapo.Fintech.models.Usuario;
@@ -33,76 +35,17 @@ public class Menu {
             switch (op) {
                 case 1:
                     // Cadastrar Usuário
-                    System.out.println("\n--- Cadastro de Usuário ---");
-                    System.out.print("Digite o nome do usuário: ");
-                    String nome = sc.nextLine();
-                    System.out.print("Digite o email do usuário: ");
-                    String email = sc.nextLine();
-                    System.out.print("Digite o telefone do usuário: ");
-                    String telefone = sc.nextLine();
-                    System.out.print("Digite o CPF do usuário (11 dígitos): ");
-                    String cpf = sc.nextLine();
-                    System.out.print("Digite a senha do usuário (mínimo 6 caracteres): ");
-                    String senha = sc.nextLine();
-                    System.out.print("Digite o complemento (opcional): ");
-                    String complemento = sc.nextLine();
-                    System.out.print("Digite o logradouro: ");
-                    String logradouro = sc.nextLine();
-                    System.out.print("Digite o número: ");
-                    String numero = sc.nextLine();
-                    System.out.print("Digite o bairro: ");
-                    String bairro = sc.nextLine();
-                    System.out.print("Digite a cidade: ");
-                    String cidade = sc.nextLine();
-                    System.out.print("Digite o estado (ex: SP): ");
-                    String estado = sc.nextLine();
-                    System.out.print("Digite o CEP: ");
-                    String cep = sc.nextLine();
-
-                    try {
-                        usuario = new Usuario(nome, email, telefone, cpf, senha, complemento,
-                                logradouro, numero, bairro, cidade, estado, cep);
-                        System.out.println("Usuário cadastrado com sucesso!");
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
-                    }
+                    RegistroLogin.registrarUsuario();
                     break;
 
                 case 2:
                     // Exibir Usuário
-                    System.out.println("\n--- Dados do Usuário ---");
-                    if (usuario == null) {
-                        System.out.println("Nenhum usuário cadastrado.");
-                    } else {
-                        System.out.println("Nome: " + usuario.getNome());
-                        System.out.println("Email: " + usuario.getEmail());
-                        System.out.println("Telefone: " + usuario.getTelefone());
-                        System.out.println("CPF: " + usuario.getCpf());
-                        System.out.println("Endereço: " + usuario.getLogradouro() + ", "
-                                + usuario.getNumero() + ", " + usuario.getBairro() + ", "
-                                + usuario.getCidade() + " - " + usuario.getEstado() + ", "
-                                + usuario.getCep());
-                        System.out.println("Saldo atual: R$" + calcularSaldo(transacoes));
-                    }
+                    RegistroLogin.exibirUsuario();
                     break;
 
                 case 3:
                     // Realizar Login
-                    System.out.println("\n--- Login ---");
-                    if (usuario == null) {
-                        System.out.println("Nenhum usuário cadastrado.");
-                    } else {
-                        System.out.print("Digite o email: ");
-                        String loginEmail = sc.nextLine();
-                        System.out.print("Digite a senha: ");
-                        String loginSenha = sc.nextLine();
-                        // Supondo que os getters existam
-                        if (usuario.getEmail().equals(loginEmail) && usuario.getSenha().equals(loginSenha)) {
-                            System.out.println("Login efetuado com sucesso!");
-                        } else {
-                            System.out.println("Email ou senha incorretos.");
-                        }
-                    }
+                    RegistroLogin.realizarLogin();
                     break;
 
                 case 4:
