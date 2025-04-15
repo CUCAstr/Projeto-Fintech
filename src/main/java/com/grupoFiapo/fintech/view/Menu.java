@@ -1,15 +1,15 @@
-package com.grupoFiapo.Fintech.view;
+package com.grupoFiapo.fintech.view;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import com.grupoFiapo.Fintech.models.RegistroLogin;
+import com.grupoFiapo.fintech.models.RegistroLogin;
 
 // Certifique-se de importar as classes do pacote correto, por exemplo:
-import com.grupoFiapo.Fintech.models.Usuario;
-import com.grupoFiapo.Fintech.models.Transacao;
-import com.grupoFiapo.Fintech.models.Despesa;
-import com.grupoFiapo.Fintech.models.Receita;
+import com.grupoFiapo.fintech.models.Usuario;
+import com.grupoFiapo.fintech.models.Transacao;
+import com.grupoFiapo.fintech.models.Despesa;
+import com.grupoFiapo.fintech.models.Receita;
 
 public class Menu {
     public static void main(String[] args) {
@@ -51,23 +51,21 @@ public class Menu {
                 case 4:
                     // Cadastrar Despesa
                     System.out.println("\n--- Cadastro de Despesa ---");
-                    if (usuario == null) {
-                        System.out.println("Cadastre um usuário primeiro.");
-                    } else {
-                        System.out.print("Digite a descrição da despesa: ");
-                        String descDespesa = sc.nextLine();
-                        System.out.print("Digite o valor da despesa: ");
-                        double valorDespesa = Double.parseDouble(sc.nextLine());
-                        System.out.print("Digite a categoria da despesa: ");
-                        String categoriaDespesa = sc.nextLine();
-                        System.out.print("Digite a data da despesa (yyyy-MM-dd): ");
-                        LocalDate dataDespesa = LocalDate.parse(sc.nextLine());
 
-                        Despesa despesa = new Despesa(descDespesa, valorDespesa, categoriaDespesa, dataDespesa);
-                        // A despesa inicia como não paga (pago = false)
-                        transacoes.add(despesa);
-                        System.out.println("Despesa cadastrada com sucesso!");
-                    }
+                    System.out.print("Digite a descrição da despesa: ");
+                    String descDespesa = sc.nextLine();
+                    System.out.print("Digite o valor da despesa: ");
+                    double valorDespesa = Double.parseDouble(sc.nextLine());
+                    System.out.print("Digite a categoria da despesa: ");
+                    String categoriaDespesa = sc.nextLine();
+                    System.out.print("Digite a data da despesa (yyyy-MM-dd): ");
+                    LocalDate dataDespesa = LocalDate.parse(sc.nextLine());
+                    Despesa despesa = new Despesa(descDespesa, valorDespesa, categoriaDespesa, dataDespesa);
+
+                    // A despesa inicia como não paga (pago = false)
+                    transacoes.add(despesa);
+                    System.out.println("Despesa cadastrada com sucesso!");
+
                     break;
 
                 case 5:
@@ -121,24 +119,22 @@ public class Menu {
                 case 7:
                     // Cadastrar Receita
                     System.out.println("\n--- Cadastro de Receita ---");
-                    if (usuario == null) {
-                        System.out.println("Cadastre um usuário primeiro.");
-                    } else {
-                        System.out.print("Digite a descrição da receita: ");
-                        String descReceita = sc.nextLine();
-                        System.out.print("Digite o valor da receita: ");
-                        double valorReceita = Double.parseDouble(sc.nextLine());
-                        System.out.print("Digite a data da receita (yyyy-MM-dd): ");
-                        LocalDate dataReceita = LocalDate.parse(sc.nextLine());
-                        System.out.print("Digite a fonte da receita (ex: Salário): ");
-                        String fonte = sc.nextLine();
-                        System.out.print("Digite a categoria da receita: ");
-                        String categoriaReceita = sc.nextLine();
 
-                        Receita receita = new Receita(descReceita, valorReceita, dataReceita, fonte, categoriaReceita);
-                        transacoes.add(receita);
-                        System.out.println("Receita cadastrada com sucesso!");
-                    }
+                    
+                    System.out.print("Digite a descrição da receita: ");
+                    String descReceita = sc.nextLine();
+                    System.out.print("Digite o valor da receita: ");
+                    double valorReceita = Double.parseDouble(sc.nextLine());
+                    System.out.print("Digite a data da receita (yyyy-MM-dd): ");
+                    LocalDate dataReceita = LocalDate.parse(sc.nextLine());
+                    System.out.print("Digite a fonte da receita (ex: Salário): ");
+                    String fonte = sc.nextLine();
+                    System.out.print("Digite a categoria da receita: ");
+                    String categoriaReceita = sc.nextLine();
+                    Receita receita = new Receita(descReceita, valorReceita, dataReceita, fonte, categoriaReceita);
+                    transacoes.add(receita);
+                    System.out.println("Receita cadastrada com sucesso!");
+
                     break;
 
                 case 8:

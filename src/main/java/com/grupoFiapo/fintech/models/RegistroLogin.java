@@ -1,4 +1,4 @@
-package com.grupoFiapo.Fintech.models;
+package com.grupoFiapo.fintech.models;
 
 import java.util.Scanner;
 

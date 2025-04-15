@@ -1,6 +1,6 @@
-package com.grupoFiapo.Fintech.test;
+package com.grupoFiapo.fintech.test;
 
-import com.grupoFiapo.Fintech.models.RegistroLogin;
+import com.grupoFiapo.fintech.models.RegistroLogin;
 
 public class TestRegistroLogin {
     public static void main(String[] args) {

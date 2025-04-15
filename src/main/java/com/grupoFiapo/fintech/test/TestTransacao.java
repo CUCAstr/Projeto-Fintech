@@ -1,7 +1,7 @@
-package com.grupoFiapo.Fintech.test;  // Pacote de testes
+package com.grupoFiapo.fintech.test;  // Pacote de testes
 
-import com.grupoFiapo.Fintech.models.Despesa;
-import com.grupoFiapo.Fintech.models.Receita;
+import com.grupoFiapo.fintech.models.Despesa;
+import com.grupoFiapo.fintech.models.Receita;
 
 import java.time.LocalDate;
 
