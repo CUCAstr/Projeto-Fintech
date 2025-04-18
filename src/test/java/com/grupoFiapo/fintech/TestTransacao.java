@@ -1,4 +1,4 @@
-package com.grupoFiapo.fintech.test;  // Pacote de testes
+package com.grupoFiapo.fintech;  // Pacote de testes
 
 import com.grupoFiapo.fintech.models.Despesa;
 import com.grupoFiapo.fintech.models.Receita;
