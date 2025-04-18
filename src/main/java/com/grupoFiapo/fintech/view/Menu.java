@@ -3,7 +3,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import com.grupoFiapo.fintech.models.RegistroLogin;
 
 // Certifique-se de importar as classes do pacote correto, por exemplo:
 import com.grupoFiapo.fintech.models.Usuario;
@@ -35,17 +34,17 @@ public class Menu {
             switch (op) {
                 case 1:
                     // Cadastrar Usuário
-                    RegistroLogin.registrarUsuario();
+//                    RegistroLogin.registrarUsuario();
                     break;
 
                 case 2:
                     // Exibir Usuário
-                    RegistroLogin.exibirUsuario();
+//                    RegistroLogin.exibirUsuario();
                     break;
 
                 case 3:
                     // Realizar Login
-                    RegistroLogin.realizarLogin();
+//                    RegistroLogin.realizarLogin();
                     break;
 
                 case 4:

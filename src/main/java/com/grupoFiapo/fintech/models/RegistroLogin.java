@@ -1,3 +1,4 @@
+/*  CLASSE DESNECESSARIA
 package com.grupoFiapo.fintech.models;
 
 import java.util.Scanner;
@@ -77,3 +78,4 @@ public class RegistroLogin {
         return usuarioRegistrado;
     }
 }
+*/

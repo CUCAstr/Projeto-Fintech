@@ -1,3 +1,4 @@
+/*
 package com.grupoFiapo.fintech;
 
 import com.grupoFiapo.fintech.models.RegistroLogin;
@@ -11,3 +12,4 @@ public class TestRegistroLogin {
         RegistroLogin.realizarLogin();
     }
 }
+*/
