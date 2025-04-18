@@ -2,7 +2,7 @@ package com.grupoFiapo.fintech.models;
 
 public class Endereco {
 
-    private long cpfUsuario;
+    private long idUsuario; // Altere para idUsuario
     private int cep;
     private String logradouro;
     private String estado;
@@ -13,9 +13,9 @@ public class Endereco {
     private int idEndereco;
 
     // Construtor
-    public Endereco(long cpfUsuario, int cep, String logradouro, String estado, String cidade,
+    public Endereco(long idUsuario, int cep, String logradouro, String estado, String cidade,
                     String bairro, String residencia, String complemento, int idEndereco) {
-        this.cpfUsuario = cpfUsuario;
+        this.idUsuario = idUsuario;
         this.cep = cep;
         this.logradouro = logradouro;
         this.estado = estado;
@@ -25,13 +25,14 @@ public class Endereco {
         this.complemento = complemento;
         this.idEndereco = idEndereco;
     }
+
     // Getters e Setters
-    public long getCpfUsuario() {
-        return cpfUsuario;
+    public long getIdUsuario() {
+        return idUsuario; // Corrigido para idUsuario
     }
 
-    public void setCpfUsuario(long cpfUsuario) {
-        this.cpfUsuario = cpfUsuario;
+    public void setIdUsuario(long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public int getCep() {
@@ -97,5 +98,4 @@ public class Endereco {
     public void setIdEndereco(int idEndereco) {
         this.idEndereco = idEndereco;
     }
-
 }

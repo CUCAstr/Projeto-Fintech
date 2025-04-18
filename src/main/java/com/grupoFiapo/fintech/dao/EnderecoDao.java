@@ -10,19 +10,19 @@ import java.util.List;
 
 public class EnderecoDao {
 
-    private Connection conexao;
+    private final Connection conexao;
 
     public EnderecoDao() throws SQLException {
         conexao = ConnectionFactory.getConnection();
     }
 
     public void insert(Endereco endereco) throws SQLException {
-        String sql = "INSERT INTO tb_endereco (id_endereco, cpf_usuario, cep, logradouro, estado, cidade, bairro, residencia, complemento) " +
-                "VALUES (seq_endereco.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tb_endereco (id_endereco, id_usuario, cep, logradouro, estado, cidade, bairro, residencia, complemento) " +
+                "VALUES (seq_tb_endereco.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement stm = conexao.prepareStatement(sql);
 
-        stm.setLong(1, endereco.getCpfUsuario());
+        stm.setLong(1, endereco.getIdUsuario());
         stm.setInt(2, endereco.getCep());
         stm.setString(3, endereco.getLogradouro());
         stm.setString(4, endereco.getEstado());
@@ -43,7 +43,7 @@ public class EnderecoDao {
 
         while (rs.next()) {
             Endereco e = new Endereco(
-                    rs.getLong("cpf_usuario"),
+                    rs.getLong("id_usuario"),
                     rs.getInt("cep"),
                     rs.getString("logradouro"),
                     rs.getString("estado"),
@@ -61,9 +61,13 @@ public class EnderecoDao {
 
         return lista;
     }
-
+    public void deleteAll() throws SQLException {
+        String sql = "DELETE FROM tb_endereco";
+        PreparedStatement stm = conexao.prepareStatement(sql);
+        stm.executeUpdate();
+        stm.close();
+    }
     public void fechar() throws SQLException {
         conexao.close();
     }
-
 }
