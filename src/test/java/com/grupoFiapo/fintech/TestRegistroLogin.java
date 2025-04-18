@@ -1,4 +1,4 @@
-package com.grupoFiapo.fintech.test;
+package com.grupoFiapo.fintech;
 
 import com.grupoFiapo.fintech.models.RegistroLogin;
 
